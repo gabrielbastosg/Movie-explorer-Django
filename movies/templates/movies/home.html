@@ -1,0 +1,50 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+{%load static %}
+<form method="GET">
+    <input type="text" name="q" placeholder="Buscar filme..." value="{{ query|default:'' }}">
+    <select name="genre">
+    <option value="">Todos os gêneros</option>
+
+    {% for genre in genres %}
+        <option value="{{ genre.id }}"
+            {% if selected_genre == genre.id|stringformat:"s" %}
+                selected
+            {% endif %}
+        >
+            {{ genre.name }}
+        </option>
+    {% endfor %}
+</select>
+    <button type="submit">Buscar</button>
+
+</form>
+
+<h2>Filmes</h2>
+
+{% if movies %}
+    <div class="movies-grid">
+        {% for movie in movies %}
+            <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                <div class="movie-card">
+                    {% if movie.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                            alt="{{ movie.title }}">
+                    {% else %}
+                        <p>Sem pôster disponível</p>
+                    {% endif %}
+
+                    <h3>{{ movie.title }}</h3>
+                    <p>{{ movie.release_date|slice:":4" }}</p>
+                    <p>⭐ {{ movie.vote_average|floatformat:1 }}</p>
+                    <p>{{ movie.overview|truncatechars:120 }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Nenhum filme encontrado.</p>
+{% endif %}
+
+{% endblock %}

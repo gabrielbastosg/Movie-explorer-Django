@@ -1,0 +1,33 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+
+<a href="{% url 'home' %}">← Voltar para filmes</a>
+
+<h2>{{ movie.title }}</h2>
+
+
+    
+{% if movie.poster_path %}
+    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+         alt="{{ movie.title }}"
+         width="300">
+{% else %}
+    <p>Sem pôster disponível</p>
+{% endif %}
+
+<p><strong>Nota:</strong> ⭐ {{ movie.vote_average|floatformat:1 }}</p>
+
+<p><strong>Lançamento:</strong> {{ movie.release_date }}</p>
+
+<p>
+    <strong>Gêneros:</strong>
+    {% for genre in movie.genres %}
+        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
+
+<p><strong>Sinopse:</strong></p>
+<p>{{ movie.overview }}</p>
+
+{% endblock %}

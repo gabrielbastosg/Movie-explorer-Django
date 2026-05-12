@@ -1,0 +1,101 @@
+:root {
+    --bg-color: #141414;
+    --card-color: #1f1f1f;
+    --primary-color: #e50914;
+    
+    --primary-hover: #b20710;
+    --text-color: #ffffff;
+    --secondary-text: #cccccc;
+    --border-radius: 8px;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+h1, h2 {
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+input {
+    padding: 10px;
+    width: 250px;
+    border: none;
+    border-radius: 6px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.movie-card {
+    background-color: var(--card-color);
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.movie-card:hover {
+    transform: scale(1.03);
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.movie-card h3 {
+    margin-top: 12px;
+    font-size: 18px;
+}
+
+.movie-card p {
+    color: var(--secondary-text);
+}
+
+.movie-link{
+    text-decoration:none;
+    color: inherit;
+}
+
+.movie-card p {
+    margin: 6px 0;
+}
+
+select {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    margin-left: 10px;
+}
