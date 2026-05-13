@@ -22,16 +22,15 @@ def home(request):
             f"https://api.themoviedb.org/3/search/movie"
             f"?api_key={API_KEY}&language=pt-BR&query={query}"
         )
-    elif genre_id:
-        url = (
-            f"https://api.themoviedb.org/3/discover/movie"
-            f"?api_key={API_KEY}&language=pt-BR&with_genres={genre_id}"
-        )
     else:
         url = (
-            f"https://api.themoviedb.org/3/movie/popular"
+            f"https://api.themoviedb.org/3/discover/movie"
             f"?api_key={API_KEY}&language=pt-BR"
         )
+
+# Se gênero foi selecionado, adiciona filtro
+    if genre_id:
+        url += f"&with_genres={genre_id}"
 
     response = requests.get(url)
     data = response.json()
@@ -52,8 +51,37 @@ def movie_detail(request,movie_id):
 
     response = requests.get(url)
     movie = response.json()
+
+    #Buscar videos/trailers dos filmes
+    video_url = (
+        f"https://api.themoviedb.org/3/movie/{movie_id}/videos"
+        f"?api_key={API_KEY}&language=pt-BR"
+    ) 
+    video_response = requests.get(video_url)
+    videos = video_response.json()["results"]
+
+    trailer_key = None
+
+    #Procurar trailer do youtube
+    for video in videos:
+        if (
+            video["site"] == "YouTube"
+            and video["type"] == "Trailer"
+            and video.get("official", False)
+        ):
+            trailer_key = video["key"]
+            break
+    # Se não achar trailer oficial, pega qualquer vídeo do YouTube
+    if not trailer_key:
+        for video in videos:
+            if video["site"] == "YouTube":
+                trailer_key = video["key"]
+                break
+
+
     return render(request,"movies/movie_detail.html",{
         "movie":movie,
+        "trailer_key": trailer_key,
     })
 
 

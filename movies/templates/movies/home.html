@@ -2,8 +2,8 @@
 
 {% block content %}
 {%load static %}
-<form method="GET">
-    <input type="text" name="q" placeholder="Buscar filme..." value="{{ query|default:'' }}">
+<form method="GET" class="search-form" id="search-form">
+    <input type="text" name="q" id="search-input" placeholder="Buscar filme..." value="{{ query|default:'' }}">
     <select name="genre">
     <option value="">Todos os gêneros</option>
 
@@ -29,15 +29,22 @@
             <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
                 <div class="movie-card">
                     {% if movie.poster_path %}
-                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
-                            alt="{{ movie.title }}">
+                        <div class="poster-wrapper">
+                            <span class="movie-year">
+                                {{ movie.release_date|slice:":4" }}
+                            </span>
+
+                            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                                alt="{{ movie.title }}">
+                        </div>
                     {% else %}
                         <p>Sem pôster disponível</p>
                     {% endif %}
 
                     <h3>{{ movie.title }}</h3>
-                    <p>{{ movie.release_date|slice:":4" }}</p>
-                    <p>⭐ {{ movie.vote_average|floatformat:1 }}</p>
+                    <p class="movie-rating">
+                        ⭐ {{ movie.vote_average|floatformat:1 }}
+                    </p>
                     <p>{{ movie.overview|truncatechars:120 }}</p>
                 </div>
             </a>

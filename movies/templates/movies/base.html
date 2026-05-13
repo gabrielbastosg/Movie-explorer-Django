@@ -9,9 +9,22 @@
     <title>Explorador de Filmes</title>
 </head>
 <body>
-    <h1>Bem Vindo ao explorador de filmes</h1>
-    {%block content %}
-    {%endblock %}
+
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="logo">
+            🎬 Movie Explorer
+        </a>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+<footer class="footer">
+    Desenvolvido por Gabriel Bastos
+</footer>
+<script src="{% static 'movies/script.js' %}"></script>
 
 </body>
 </html>

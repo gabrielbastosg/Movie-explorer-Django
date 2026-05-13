@@ -2,32 +2,53 @@
 
 {% block content %}
 
-<a href="{% url 'home' %}">← Voltar para filmes</a>
+<a class="back-link" href="{% url 'home' %}">
+    ← Voltar para filmes
+</a>
 
-<h2>{{ movie.title }}</h2>
+<div class="movie-detail">
 
+    <div class="movie-poster">
+        {% if movie.poster_path %}
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                 alt="{{ movie.title }}">
+        {% else %}
+            <p>Sem pôster disponível</p>
+        {% endif %}
+    </div>
 
-    
-{% if movie.poster_path %}
-    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
-         alt="{{ movie.title }}"
-         width="300">
-{% else %}
-    <p>Sem pôster disponível</p>
+    <div class="movie-info">
+        <h2>{{ movie.title }}</h2>
+
+        <p><strong>Nota:</strong> ⭐ {{ movie.vote_average|floatformat:1 }}</p>
+
+        <p><strong>Lançamento:</strong> {{ movie.release_date }}</p>
+
+        <p>
+            <strong>Gêneros:</strong>
+            {% for genre in movie.genres %}
+                {{ genre.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+
+        <p><strong>Sinopse:</strong></p>
+        <p>{{ movie.overview }}</p>
+    </div>
+
+</div>
+
+{% if trailer_key %}
+    <div class="trailer-section">
+        <h3>Trailer</h3>
+
+        <iframe
+            src="https://www.youtube-nocookie.com/embed/{{ trailer_key }}"
+            title="Trailer do filme"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+        </iframe>
+    </div>
 {% endif %}
-
-<p><strong>Nota:</strong> ⭐ {{ movie.vote_average|floatformat:1 }}</p>
-
-<p><strong>Lançamento:</strong> {{ movie.release_date }}</p>
-
-<p>
-    <strong>Gêneros:</strong>
-    {% for genre in movie.genres %}
-        {{ genre.name }}{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-</p>
-
-<p><strong>Sinopse:</strong></p>
-<p>{{ movie.overview }}</p>
 
 {% endblock %}
