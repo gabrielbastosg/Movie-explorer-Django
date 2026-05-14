@@ -1,12 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import requests
 from decouple import config
+from .models import FavoriteMovie
+from django.contrib import messages
+
 API_KEY = config("TMDB_API_KEY")
 
 # Create your views here.
 def home(request):
     query = request.GET.get("q")
     genre_id = request.GET.get("genre")
+    page = request.GET.get("page", 1)
 
     # Buscar lista de gêneros
     genres_url = (
@@ -20,12 +24,12 @@ def home(request):
     if query:
         url = (
             f"https://api.themoviedb.org/3/search/movie"
-            f"?api_key={API_KEY}&language=pt-BR&query={query}"
+            f"?api_key={API_KEY}&language=pt-BR&query={query}&page={page}"
         )
     else:
         url = (
             f"https://api.themoviedb.org/3/discover/movie"
-            f"?api_key={API_KEY}&language=pt-BR"
+            f"?api_key={API_KEY}&language=pt-BR&page={page}&sort_by=popularity.desc"
         )
 
 # Se gênero foi selecionado, adiciona filtro
@@ -35,12 +39,15 @@ def home(request):
     response = requests.get(url)
     data = response.json()
     movies = data["results"]
+    total_pages = data["total_pages"]
 
     return render(request, "movies/home.html", {
         "movies": movies,
         "query": query,
         "genres": genres,
         "selected_genre": genre_id,
+        "page": int(page),
+        "total_pages": total_pages,
     })
 
 def movie_detail(request,movie_id):
@@ -78,10 +85,45 @@ def movie_detail(request,movie_id):
                 trailer_key = video["key"]
                 break
 
+    is_favorite = FavoriteMovie.objects.filter(movie_id=movie_id).exists()
 
     return render(request,"movies/movie_detail.html",{
         "movie":movie,
         "trailer_key": trailer_key,
+        "movie_id":movie_id,
+        "is_favorite":is_favorite
     })
 
 
+def add_favorite(request,movie_id):
+    url = (
+        f"https://api.themoviedb.org/3/movie/{movie_id}"
+        f"?api_key={API_KEY}&language=pt-BR"
+    )
+
+    response = requests.get(url)
+    movie = response.json()
+
+    FavoriteMovie.objects.get_or_create(
+        movie_id=movie["id"],
+        title=movie["title"],
+        poster_path=movie["poster_path"],
+    )
+
+    messages.success(request, "✅ Filme adicionado aos favoritos!")
+
+    return redirect("movie_detail", movie_id=movie_id)
+
+def favorites(request):
+    favorites = FavoriteMovie.objects.all()
+
+    return render(request,"movies/favorites.html",{
+        "favorites":favorites
+    })
+
+def remove_favorite(request, movie_id):
+    FavoriteMovie.objects.filter(movie_id=movie_id).delete()
+   
+    messages.success(request, "❌ Filme removido dos favoritos!")
+    
+    return redirect("favorites")

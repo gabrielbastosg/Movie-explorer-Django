@@ -1,0 +1,23 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+<h2>❤️ Meus Favoritos</h2>
+
+<div class="movies-grid">
+{% for movie in favorites %}
+    <div class="movie-card">
+        <a href="{% url 'movie_detail' movie.movie_id %}" class="movie-link">
+            {% if movie.poster_path %}
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                     alt="{{ movie.title }}">
+            {% endif %}
+            <h3>{{ movie.title }}</h3>
+        </a>
+        <a href="{% url 'remove_favorite' movie.movie_id %}" class="btn-remove">🗑️ Remover</a>
+    </div>
+{% empty %}
+    <p>Nenhum filme favoritado ainda.</p>
+{% endfor %}
+</div>
+{% endblock %}
+

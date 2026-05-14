@@ -20,6 +20,14 @@
     <div class="movie-info">
         <h2>{{ movie.title }}</h2>
 
+        {% if is_favorite %}
+            <span class="favorite-btn favorited">❤️ Já favoritado</span>
+        {% else %}
+            <a href="{% url 'add_favorite' movie_id %}" class="favorite-btn">
+                🤍 Adicionar aos favoritos
+            </a>
+        {% endif %}
+
         <p><strong>Nota:</strong> ⭐ {{ movie.vote_average|floatformat:1 }}</p>
 
         <p><strong>Lançamento:</strong> {{ movie.release_date }}</p>

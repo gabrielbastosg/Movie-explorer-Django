@@ -74,7 +74,11 @@ button:hover {
 
 .movie-card img {
     width: 100%;
-    border-radius: 8px;
+    max-width: 220px;
+    height: auto;
+    border-radius:8px;
+    display: block;
+    margin: 0 auto;
 }
 
 .movie-card h3 {
@@ -267,6 +271,91 @@ select {
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
+.favorite-btn {
+    display: inline-block;
+    margin: 12px 0;
+    padding: 10px 16px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.favorite-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.btn-remove {
+    display: inline-block;
+    margin-top: 10px;
+    color: #ff6b6b;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-remove:hover {
+    color: var(--primary-color);
+}
+
+.favorite-added {
+    display: inline-block;
+    margin: 12px 0;
+    padding: 10px 16px;
+    background-color: #2d6a4f;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.pagination {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    background-color: var(--card-color);
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.pagination a:hover {
+    background-color: var(--primary-color);
+}
+/* Mensagens */
+
+.messages {
+    margin-bottom: 20px;
+}
+
+.alert-message {
+    background-color: #2d6a4f;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
 /* Responsividade */
 
