@@ -86,7 +86,12 @@ def movie_detail(request,movie_id):
                 trailer_key = video["key"]
                 break
 
-    is_favorite = FavoriteMovie.objects.filter(movie_id=movie_id).exists()
+    is_favorite = False
+    if request.user.is_authenticated:
+        is_favorite = FavoriteMovie.objects.filter(
+            user=request.user,
+            movie_id=movie_id
+        ).exists()
 
     return render(request,"movies/movie_detail.html",{
         "movie":movie,
@@ -106,6 +111,7 @@ def add_favorite(request,movie_id):
     movie = response.json()
 
     FavoriteMovie.objects.get_or_create(
+        user=request.user,
         movie_id=movie["id"],
         title=movie["title"],
         poster_path=movie["poster_path"],
@@ -117,7 +123,7 @@ def add_favorite(request,movie_id):
 
 @login_required
 def favorites(request):
-    favorites = FavoriteMovie.objects.all()
+    favorites = FavoriteMovie.objects.filter(user=request.user)
 
     return render(request,"movies/favorites.html",{
         "favorites":favorites
@@ -126,7 +132,10 @@ def favorites(request):
 
 @login_required
 def remove_favorite(request, movie_id):
-    FavoriteMovie.objects.filter(movie_id=movie_id).delete()
+    FavoriteMovie.objects.filter(
+        user=request.user,
+        movie_id=movie_id
+        ).delete()
    
     messages.success(request, "❌ Filme removido dos favoritos!")
     
