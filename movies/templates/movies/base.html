@@ -19,6 +19,21 @@
         <a href="{% url 'favorites' %}" class="nav-link">
             ❤️ Favoritos
         </a>
+
+        {% if user.is_authenticated %}
+            <span class="nav-link">
+                Olá, {{ user.username }}
+
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+            </span>
+        {% else %}
+            <a href="{% url 'login' %}" class="nav-link">
+                Login
+            </a>
+        {% endif %}
     </nav>
 
     <main class="main-content">

@@ -3,6 +3,7 @@ import requests
 from decouple import config
 from .models import FavoriteMovie
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 API_KEY = config("TMDB_API_KEY")
 
@@ -94,7 +95,7 @@ def movie_detail(request,movie_id):
         "is_favorite":is_favorite
     })
 
-
+@login_required
 def add_favorite(request,movie_id):
     url = (
         f"https://api.themoviedb.org/3/movie/{movie_id}"
@@ -114,6 +115,7 @@ def add_favorite(request,movie_id):
 
     return redirect("movie_detail", movie_id=movie_id)
 
+@login_required
 def favorites(request):
     favorites = FavoriteMovie.objects.all()
 
@@ -121,6 +123,8 @@ def favorites(request):
         "favorites":favorites
     })
 
+
+@login_required
 def remove_favorite(request, movie_id):
     FavoriteMovie.objects.filter(movie_id=movie_id).delete()
    
