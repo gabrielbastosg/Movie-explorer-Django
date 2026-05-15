@@ -9,3 +9,20 @@
 .btn-remove:hover {
     color: var(--primary-color);
 }
+
+.empty-favorites {
+    text-align: center;
+    width: 100%;
+    padding: 50px 20px;
+    color: var(--secondary-text);
+}
+
+.empty-favorites h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.empty-favorites p {
+    font-size: 16px;
+}

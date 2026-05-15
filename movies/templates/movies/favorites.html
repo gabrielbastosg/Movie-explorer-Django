@@ -16,7 +16,10 @@
         <a href="{% url 'remove_favorite' movie.movie_id %}" class="btn-remove">🗑️ Remover</a>
     </div>
 {% empty %}
-    <p>Nenhum filme favoritado ainda.</p>
+    <div class="empty-favorites">
+        <h3>Você ainda não tem favoritos ❤️</h3>
+        <p>Explore filmes e adicione alguns à sua lista.</p>
+    </div>
 {% endfor %}
 </div>
 {% endblock %}

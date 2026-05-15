@@ -56,11 +56,11 @@
 
 .movie-card img {
     width: 100%;
-    max-width: 220px;
-    height: auto;
+    height: 330px;
+    object-fit: cover;
     border-radius: 8px;
     display: block;
-    margin: 0 auto;
+    margin: auto;
 }
 
 .movie-card h3 {
