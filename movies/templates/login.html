@@ -1,26 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Login - Movie Explorer</title>
+    <link rel="stylesheet" href="{% static 'movies/style.css' %}">
 </head>
 <body>
 
-    <h2>Login</h2>
+    <div class="login-container">
+        <div class="login-card">
+            <h1>🎬 Movie Explorer</h1>
+            <h2>Entrar</h2>
 
-    <form method="post">
-        {% csrf_token %}
+            <form method="post">
+                {% csrf_token %}
 
-        {{ form.as_p }}
+                {{ form.as_p }}
 
-        <button type="submit">Entrar</button>
-    </form>
+                <button type="submit" class="login-button">
+                    Entrar
+                </button>
+            </form>
 
-    {% if form.errors %}
-        <p style="color:red;">
-            Usuário ou senha inválidos
-        </p>
-    {% endif %}
+            {% if form.errors %}
+                <p class="login-error">
+                    Usuário ou senha inválidos
+                </p>
+            {% endif %}
+        </div>
+    </div>
 
 </body>
 </html>

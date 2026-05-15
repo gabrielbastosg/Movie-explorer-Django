@@ -1,0 +1,11 @@
+.btn-remove {
+    display: inline-block;
+    margin-top: 10px;
+    color: #ff6b6b;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-remove:hover {
+    color: var(--primary-color);
+}
